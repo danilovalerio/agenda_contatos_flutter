@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:agenda_de_contatos_flutter_app/helpers/contact_helper.dart';
 import 'package:flutter/material.dart';
 
@@ -9,13 +11,13 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   ContactHelper helper = ContactHelper(); //Singletone
   List<Contact> contacts = List();
-  
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     //carrega os contatos do banco
-    helper.getAllContacts().then((list){
+    helper.getAllContacts().then((list) {
       setState(() {
         contacts = list;
       });
@@ -55,11 +57,39 @@ class _HomeState extends State<Home> {
         backgroundColor: Colors.green,
       ),
       body: ListView.builder(
-          padding: EdgeInsets.all(10),
-          itemCount: contacts.length,
-          itemBuilder: (context, index){
+        padding: EdgeInsets.all(10),
+        itemCount: contacts.length,
+        itemBuilder: (context, index) {
 
-            },
+        },
+      ),
     );
+  }
+
+  Widget _contactCard(BuildContext context, int index){
+    //como card não tem toque adicionamos um gesture
+    return GestureDetector(
+      child: Card(
+        child: Padding(
+          padding: EdgeInsets.all(10),
+          child: Row(
+            children: <Widget>[
+              Container(
+                width: 80,
+                height: 80,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: contacts[index].img != null ?
+                    FileImage(File(contacts[index].img)) :
+                    AssetImage("images/robot.png");
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    )
   }
 }
