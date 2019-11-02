@@ -82,7 +82,7 @@ class _HomeState extends State<Home> {
                   image: DecorationImage(
                     image: contacts[index].img != null ?
                     FileImage(File(contacts[index].img)) :
-                    AssetImage("images/robot.png");
+                    AssetImage("images/robot.png")
                   ),
                 ),
               ),
@@ -107,6 +107,6 @@ class _HomeState extends State<Home> {
           ),
         ),
       ),
-    )
+    );
   }
 }
