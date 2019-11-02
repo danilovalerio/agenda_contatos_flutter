@@ -88,6 +88,13 @@ class ContactHelper {
     }
     return listContacts;
   }
+
+  //retorna a quantidade de contatos da tabela
+  Future<int> getNumber() async {
+    Database dbContact = await db;
+    String sql = "SELECT COUNT(*) FROM $contactTable)";
+    return Sqflite.firstIntValue(await dbContact.rawQuery(sql));
+  }
  
 }
 
