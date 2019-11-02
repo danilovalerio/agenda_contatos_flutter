@@ -40,10 +40,19 @@ class ContactHelper {
   }
 
   //Retorna um contact no futuro
-  Future<Contact> saveContact(Contact contact)async {
+  Future<Contact> saveContact(Contact contact) async {
     Database dbContact = await db;
-    contact.id = await dbContact.insert(contactTable, contact.toMap()); //convert usuário para map para salvar no banco
+    contact.id = await dbContact.insert(contactTable,
+        contact.toMap()); //convert usuário para map para salvar no banco
     return contact;
+  }
+  //Busca contato pelo id
+  Future<Contact> getContact(int id) async {
+    Database dbContact = await db;
+    List<Map> maps = await dbContact.query(contactTable,
+        columns: [idColumn, nameColumn, emailColumn, phoneColumn, imgColumn],
+        where: "$idColumn = ?",
+        whereArgs: [id]);
   }
 }
 
