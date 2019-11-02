@@ -60,7 +60,7 @@ class _HomeState extends State<Home> {
         padding: EdgeInsets.all(10),
         itemCount: contacts.length,
         itemBuilder: (context, index) {
-
+          return _contactCard(context, index);
         },
       ),
     );
@@ -84,6 +84,23 @@ class _HomeState extends State<Home> {
                     FileImage(File(contacts[index].img)) :
                     AssetImage("images/robot.png");
                   ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 10),
+                child: Column(
+                  children: <Widget>[
+                    Text(contacts[index].name ?? "",
+                    style: TextStyle(fontSize: 22,
+                    fontWeight: FontWeight.bold),
+                    ),
+                    Text(contacts[index].email ?? "",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    Text(contacts[index].phone ?? "",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ],
                 ),
               )
             ],
