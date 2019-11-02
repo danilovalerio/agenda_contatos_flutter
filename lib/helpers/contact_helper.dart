@@ -60,6 +60,35 @@ class ContactHelper {
       return null;
     }
   }
+  
+  //Deletar um contato que retorna um inteiro
+  Future<int> deleteContact(int id) async {
+    Database dbContact = await db;
+    return await dbContact.delete(contactTable, where: "$idColumn = ?", whereArgs: [id]);
+  }
+
+  Future<int> updateContact(Contact contact) async {
+    Database dbContact = await db;
+    return await dbContact.update(contactTable,
+        contact.toMap(),
+        where: "$idColumn = ?",
+        whereArgs: [contact.id]);
+  }
+
+  //retorna todos os contatos
+  Future<List> getAllContacts() async {
+    Database dbContact = await db;
+    List listMap = await dbContact.rawQuery("SELECT * FROM $contactTable");
+    List<Contact> listContacts = List();
+
+    //para cada map na minha lista
+    for(Map m in listMap){
+      //para cada map convert em contact e adiciona na lista de contacts
+      listContacts.add(Contact.fromMap(m));
+    }
+    return listContacts;
+  }
+ 
 }
 
 class Contact {
