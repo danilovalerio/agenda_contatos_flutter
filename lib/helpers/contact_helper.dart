@@ -2,11 +2,11 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 final String contactTable = "contactTable";
-final String idColumn = idColumn;
-final String nameColumn = nameColumn;
-final String emailColumn = emailColumn;
-final String phoneColumn = phoneColumn;
-final String imgColumn = imgColumn;
+final String idColumn = "idColumn";
+final String nameColumn = "nameColumn";
+final String emailColumn = "emailColumn";
+final String phoneColumn = "phoneColumn";
+final String imgColumn = "imgColumn";
 
 class ContactHelper {
   //singletone
@@ -34,7 +34,7 @@ class ContactHelper {
     return await openDatabase(path, version: 1,
         onCreate: (Database db, int newVersion) async {
       await db.execute(
-          "CREATE TABLE $contactTable($idColumn INTEGER PRIMARY KEY, $nameColumn TEXT, $emailColumn TEXT"
+          "CREATE TABLE $contactTable($idColumn INTEGER PRIMARY KEY, $nameColumn TEXT, $emailColumn TEXT,"
           "$phoneColumn TEXT, $imgColumn TEXT)");
     });
   }
@@ -109,6 +109,8 @@ class Contact {
   String email;
   String phone;
   String img;
+
+  Contact();
 
   //pega o map
   Contact.fromMap(Map map) {
