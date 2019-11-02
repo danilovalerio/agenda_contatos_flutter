@@ -89,6 +89,7 @@ class _HomeState extends State<Home> {
               Padding(
                 padding: EdgeInsets.only(left: 10),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(contacts[index].name ?? "",
                     style: TextStyle(fontSize: 22,
