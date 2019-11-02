@@ -7,10 +7,23 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
-  ContactHelper helper = ContactHelper();//Singletone
-
+  ContactHelper helper = ContactHelper(); //Singletone
+  List<Contact> contacts = List();
+  
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    //carrega os contatos do banco
+    helper.getAllContacts().then((list){
+      setState(() {
+        contacts = list;
+      });
+    });
+  }
+
+  //teste do banco de dados
+  /*@override
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -22,13 +35,31 @@ class _HomeState extends State<Home> {
 
     helper.saveContact(c);
 
-  helper.getAllContacts().then((list){
-    print(list);
+    helper.getAllContacts().then((list) {
+      print(list);
     });
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Contatos"),
+        backgroundColor: Colors.green,
+        centerTitle: true,
+      ),
+      backgroundColor: Colors.white,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.add),
+        backgroundColor: Colors.green,
+      ),
+      body: ListView.builder(
+          padding: EdgeInsets.all(10),
+          itemCount: contacts.length,
+          itemBuilder: (context, index){
+
+            },
+    );
   }
 }
