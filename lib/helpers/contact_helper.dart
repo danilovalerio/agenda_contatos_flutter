@@ -38,6 +38,13 @@ class ContactHelper {
           "$phoneColumn TEXT, $imgColumn TEXT)");
     });
   }
+
+  //Retorna um contact no futuro
+  Future<Contact> saveContact(Contact contact)async {
+    Database dbContact = await db;
+    contact.id = await dbContact.insert(contactTable, contact.toMap()); //convert usuário para map para salvar no banco
+    return contact;
+  }
 }
 
 class Contact {
