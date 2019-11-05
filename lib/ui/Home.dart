@@ -18,11 +18,8 @@ class _HomeState extends State<Home> {
     // TODO: implement initState
     super.initState();
     //carrega os contatos do banco
-    helper.getAllContacts().then((list) {
-      setState(() {
-        contacts = list;
-      });
-    });
+    _getAllContacts();
+
   }
 
   //teste do banco de dados
@@ -69,7 +66,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget _contactCard(BuildContext context, int index){
+  Widget _contactCard(BuildContext context, int index) {
     //como card não tem toque adicionamos um gesture
     return GestureDetector(
       child: Card(
@@ -83,10 +80,9 @@ class _HomeState extends State<Home> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: contacts[index].img != null ?
-                    FileImage(File(contacts[index].img)) :
-                    AssetImage("images/robot.png")
-                  ),
+                      image: contacts[index].img != null
+                          ? FileImage(File(contacts[index].img))
+                          : AssetImage("images/robot.png")),
                 ),
               ),
               Padding(
@@ -94,14 +90,17 @@ class _HomeState extends State<Home> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(contacts[index].name ?? "",
-                    style: TextStyle(fontSize: 22,
-                    fontWeight: FontWeight.bold),
+                    Text(
+                      contacts[index].name ?? "",
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
-                    Text(contacts[index].email ?? "",
+                    Text(
+                      contacts[index].email ?? "",
                       style: TextStyle(fontSize: 18),
                     ),
-                    Text(contacts[index].phone ?? "",
+                    Text(
+                      contacts[index].phone ?? "",
                       style: TextStyle(fontSize: 18),
                     ),
                   ],
@@ -111,15 +110,34 @@ class _HomeState extends State<Home> {
           ),
         ),
       ),
-      onTap: (){
+      onTap: () {
         _showContactPage(contact: contacts[index]);
       },
     );
   }
 
-  void _showContactPage({Contact contact}){
-    Navigator.push(context,
-    MaterialPageRoute(builder: (context) => ContactPage(contact: contact,))
-    );
+  void _showContactPage({Contact contact}) async {
+    final recebeContact = await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ContactPage(
+                  contact: contact,
+                )));
+    if(recebeContact != null){
+      if(contact !=null){
+        await helper.updateContact(recebeContact);
+      } else {
+        await helper.saveContact(recebeContact);
+      }
+      _getAllContacts();
+    }
+  }
+
+  void _getAllContacts(){
+    helper.getAllContacts().then((list) {
+      setState(() {
+        contacts = list;
+      });
+    });
   }
 }
